@@ -1,0 +1,28 @@
+logging.level:
+  ROOT: WARN
+  com.moynes: DEBUG
+  org.apache.kafka: WARN
+
+spring:
+  application:
+    name: Spring Kafka
+
+
+  kafka:
+    bootstrap-servers: localhost:19092
+    consumer:
+      group-id: moynes      
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        schema.registry.url: http://localhost:18081
+        interceptor.classes: com.moynes.springkafka.interceptor.Interceptor
+    producer:
+      group-id: moynes-producer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      properties:
+        schema.registry.url: http://localhost:18081
+
+topics:
+  avro: avro-ingest
